@@ -1,38 +1,34 @@
 package schemas;
 
-import validators.Content;
-import validators.MinLength;
-import validators.Required;
-import validators.Validation;
+import java.util.Objects;
+import java.util.function.Predicate;
 
-public final class StringSchema {
+public final class StringSchema extends BaseSchema {
 
-    private Validation validation;
+    private Predicate<Object> predicateMinLength;
+    private Predicate<Object> predicateContain;
 
-    public Validation getValidation() {
-        return validation;
+
+    public StringSchema required() {
+
+        this.required = true;
+        this.predicateRequired = x -> !Objects.equals(x, null) && x instanceof String && !x.equals("");
+
+        return this;
+    }
+    public StringSchema minLength(int number) {
+
+        this.predicateMinLength = x -> ((String) x).length() >= number;
+        predicate.add(predicateMinLength);
+
+        return this;
+    }
+    public StringSchema contains(String subString) {
+
+        this.predicateContain = x -> ((String) x).contains(subString);
+        predicate.add(predicateContain);
+
+        return this;
     }
 
-    public boolean isValid(Object value) {
-        if (getValidation() == null) {
-            return true;
-        } else {
-            return getValidation().isValid(value);
-        }
-    }
-
-    public void required() {
-        this.validation = new Required(this);
-    }
-
-    public Validation minLength(int number) {
-        this.validation = new MinLength(this, number);
-        return new MinLength(this, number);
-    }
-
-    public Validation contains(String subString) {
-        this.validation = new Content(this, subString);
-        return new Content(this, subString);
-
-    }
 }
