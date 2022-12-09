@@ -11,6 +11,7 @@ public final class MapSchema extends BaseSchema {
     private Map<String, BaseSchema> schemas;
 
 
+
     public boolean isValid(Map<String, Object> humans) {
 
         if (shape) {

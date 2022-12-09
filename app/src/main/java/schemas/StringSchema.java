@@ -9,6 +9,7 @@ public final class StringSchema extends BaseSchema {
     private Predicate<Object> predicateContain;
 
 
+
     public StringSchema required() {
 
         this.required = true;
@@ -19,14 +20,14 @@ public final class StringSchema extends BaseSchema {
     public StringSchema minLength(int number) {
 
         this.predicateMinLength = x -> ((String) x).length() >= number;
-        predicate.add(predicateMinLength);
+        this.predicate.add(predicateMinLength);
 
         return this;
     }
     public StringSchema contains(String subString) {
 
         this.predicateContain = x -> ((String) x).contains(subString);
-        predicate.add(predicateContain);
+        this.predicate.add(predicateContain);
 
         return this;
     }

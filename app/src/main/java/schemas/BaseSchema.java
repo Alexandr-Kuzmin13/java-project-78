@@ -5,11 +5,12 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.Predicate;
 
-public class BaseSchema {
+public abstract class BaseSchema {
 
-    public boolean required;
-    public Predicate<Object> predicateRequired;
-    public List<Predicate<Object>> predicate = new ArrayList<>();
+    protected boolean required;
+    protected Predicate<Object> predicateRequired;
+    protected List<Predicate<Object>> predicate = new ArrayList<>();
+
 
 
     public final boolean isValid(Object value) {

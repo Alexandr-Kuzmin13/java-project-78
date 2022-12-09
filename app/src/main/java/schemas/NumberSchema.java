@@ -9,6 +9,7 @@ public final class NumberSchema extends BaseSchema {
     private Predicate<Object> predicateRange;
 
 
+
     public NumberSchema required() {
 
         this.required = true;
