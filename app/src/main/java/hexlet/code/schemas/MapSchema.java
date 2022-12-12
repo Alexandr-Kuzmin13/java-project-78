@@ -8,8 +8,6 @@ import java.util.function.Predicate;
 
 public final class MapSchema extends BaseSchema {
 
-    private final List<Predicate<Map<String, Object>>> predicateMaps = new LinkedList<>();
-
     public MapSchema() {
         nonRequired = copyValue == null;
     }
