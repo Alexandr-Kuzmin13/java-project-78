@@ -16,7 +16,6 @@ public class ValidatorTest {
     private static final int CHECKS_NUMBER_4 = 4;
     private static final int CHECKS_NUMBER_5 = 5;
     private static final int CHECKS_NUMBER_MINUS_5 = -5;
-    private static final int CHECKS_NUMBER_6 = 6;
     private static final int CHECKS_NUMBER_7 = 7;
     private static final int CHECKS_NUMBER_10 = 10;
     private static final int CHECKS_NUMBER_MINUS_10 = -10;
@@ -31,6 +30,7 @@ public class ValidatorTest {
 
         assertThat(schema.isValid("")).isTrue();
         assertThat(schema.isValid(null)).isTrue();
+        assertThat(schema.isValid("what does the fox say")).isTrue();
 
         schema.required();
 
@@ -46,10 +46,8 @@ public class ValidatorTest {
 
         assertThat(schema.isValid("what does the fox say")).isFalse();
 
-        assertThat(schema.minLength(CHECKS_NUMBER_7).isValid("whatthe")).isTrue();
-        assertThat(schema.minLength(CHECKS_NUMBER_6).isValid("whatthe")).isTrue();
-        assertThat(schema.minLength(CHECKS_NUMBER_10).isValid("whatthe")).isFalse();
-
+        schema.minLength(CHECKS_NUMBER_7);
+        assertThat(schema.isValid("whatthe")).isTrue();
         assertThat(schema.isValid("hexlet")).isFalse();
     }
     @Test
@@ -60,6 +58,7 @@ public class ValidatorTest {
         NumberSchema schema = v.number();
 
         assertThat(schema.isValid(null)).isTrue();
+        assertThat(schema.isValid(CHECKS_NUMBER_10)).isTrue();
         assertThat(schema.positive().isValid(null)).isTrue();
         assertThat(schema.isValid(CHECKS_NUMBER_MINUS_10)).isFalse();
 
@@ -90,13 +89,14 @@ public class ValidatorTest {
         MapSchema schema = v.map();
 
         assertThat(schema.isValid(null)).isTrue();
+        assertThat(schema.isValid(new HashMap<>())).isTrue();
 
         schema.required();
 
         assertThat(schema.isValid(null)).isFalse();
         assertThat(schema.isValid(new HashMap<>())).isTrue();
 
-        Map<String, String> data = new HashMap<>();
+        Map<String, Object> data = new HashMap<>();
         data.put("key1", "value1");
 
         assertThat(schema.isValid(data)).isTrue();

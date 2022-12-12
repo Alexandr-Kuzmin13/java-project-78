@@ -1,35 +1,31 @@
 package hexlet.code.schemas;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Objects;
 import java.util.function.Predicate;
 
 public abstract class BaseSchema {
 
+    protected boolean nonRequired;
+    protected Object copyValue;
     protected boolean required;
     protected Predicate<Object> predicateRequired;
-    protected List<Predicate<Object>> predicate = new ArrayList<>();
-
+    protected List<Predicate<Object>> predicates = new LinkedList<>();
 
 
     public final boolean isValid(Object value) {
 
+        this.copyValue = value;
+
         if (required) {
 
-            if (!predicateRequired.test(value)) {
-                return false;
-            }
-            if (Objects.equals(value, null)) {
-                return true;
-            }
-
-            for (var l : predicate) {
-                if (!l.test(value)) {
+            for (var predicate : predicates) {
+                if (!predicate.test(value)) {
                     return false;
                 }
             }
         }
-        return true;
+        return nonRequired;
     }
+
 }

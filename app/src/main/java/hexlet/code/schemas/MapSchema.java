@@ -1,46 +1,43 @@
 package hexlet.code.schemas;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.function.Predicate;
 
 public final class MapSchema extends BaseSchema {
 
-    private boolean shape;
-    private Predicate<Object> predicateSizeof;
-    private Map<String, BaseSchema> schemas;
+    private final List<Predicate<Map<String, Object>>> predicateMaps = new LinkedList<>();
 
-
-
-    public boolean isValid(Map<String, Object> humans) {
-
-        if (shape) {
-            for (var human: humans.keySet()) {
-
-                if (!schemas.get(human).isValid(humans.get(human))) {
-                    return false;
-                }
-            }
-        }
-        return super.isValid(humans);
+    public MapSchema() {
+        nonRequired = copyValue == null;
     }
+
+
     public void required() {
 
         this.required = true;
-        this.predicateRequired = x -> !Objects.equals(x, null) && x instanceof Map;
+        Predicate<Object> predicateRequired = x -> !Objects.equals(x, null);
+        predicates.add(predicateRequired);
 
     }
     public MapSchema sizeof(int number) {
 
-        this.predicateSizeof = x -> ((Map) x).size() == number;
-        predicate.add(predicateSizeof);
+        Predicate<Object> predicateSizeof = x -> ((Map) x).size() == number;
+        predicates.add(predicateSizeof);
 
         return this;
     }
     public void shape(Map<String, BaseSchema> schemasField) {
 
-        this.shape = true;
-        this.schemas = schemasField;
+        required();
+
+        Predicate<Object> predicateShape = x -> ((Map) x).entrySet().stream()
+                .allMatch(y -> schemasField.get(((Map.Entry<String, Object>) y).getKey())
+                        .isValid(((Map.Entry) y).getValue()));
+
+        predicates.add(predicateShape);
     }
 
 }

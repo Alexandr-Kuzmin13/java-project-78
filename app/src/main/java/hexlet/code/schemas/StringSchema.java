@@ -1,33 +1,33 @@
 package hexlet.code.schemas;
 
-import java.util.Objects;
 import java.util.function.Predicate;
 
 public final class StringSchema extends BaseSchema {
 
-    private Predicate<Object> predicateMinLength;
-    private Predicate<Object> predicateContain;
-
+    public StringSchema() {
+        nonRequired = copyValue == null || copyValue.equals("");
+    }
 
 
     public StringSchema required() {
 
         this.required = true;
-        this.predicateRequired = x -> !Objects.equals(x, null) && x instanceof String && !x.equals("");
+        this.predicateRequired = x -> x instanceof String && !x.equals("");
+        this.predicates.add(predicateRequired);
 
         return this;
     }
     public StringSchema minLength(int number) {
 
-        this.predicateMinLength = x -> ((String) x).length() >= number;
-        this.predicate.add(predicateMinLength);
+        Predicate<Object> predicateMinLength = x -> ((String) x).length() >= number;
+        this.predicates.add(predicateMinLength);
 
         return this;
     }
     public StringSchema contains(String subString) {
 
-        this.predicateContain = x -> ((String) x).contains(subString);
-        this.predicate.add(predicateContain);
+        Predicate<Object> predicateContain = x -> ((String) x).contains(subString);
+        this.predicates.add(predicateContain);
 
         return this;
     }
