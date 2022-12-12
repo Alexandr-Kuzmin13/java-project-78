@@ -34,7 +34,7 @@ public final class MapSchema extends BaseSchema {
         required();
 
         Predicate<Object> predicateShape = x -> ((Map) x).entrySet().stream()
-                .allMatch(y -> schemasField.get(((Map.Entry<String, Object>) y).getKey())
+                .allMatch(y -> schemasField.get(((Map.Entry) y).getKey())
                         .isValid(((Map.Entry) y).getValue()));
 
         predicates.add(predicateShape);
