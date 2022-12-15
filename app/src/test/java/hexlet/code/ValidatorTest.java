@@ -21,6 +21,7 @@ public class ValidatorTest {
     private static final int CHECKS_NUMBER_MINUS_10 = -10;
     private static final int CHECKS_NUMBER_11 = 11;
     private static final int CHECKS_NUMBER_100 = 100;
+
     @Test
     public void testStringSchema() {
 
