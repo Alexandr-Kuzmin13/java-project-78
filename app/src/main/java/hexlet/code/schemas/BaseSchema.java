@@ -6,8 +6,6 @@ import java.util.function.Predicate;
 
 public abstract class BaseSchema {
 
-    protected boolean nonRequired;
-    protected Object copyValue;
     protected boolean required;
     protected Predicate<Object> predicateRequired;
     protected List<Predicate<Object>> predicates = new LinkedList<>();
@@ -15,17 +13,17 @@ public abstract class BaseSchema {
 
     public final boolean isValid(Object value) {
 
-        this.copyValue = value;
+        if (!required && value == null) {
+            return true;
+        }
 
-        if (required) {
+        for (var predicate : predicates) {
 
-            for (var predicate : predicates) {
-                if (!predicate.test(value)) {
-                    return false;
-                }
+            if (!predicate.test(value)) {
+                return false;
             }
         }
-        return nonRequired;
+        return true;
     }
 
 }

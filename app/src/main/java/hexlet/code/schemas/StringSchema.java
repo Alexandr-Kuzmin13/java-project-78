@@ -4,11 +4,6 @@ import java.util.function.Predicate;
 
 public final class StringSchema extends BaseSchema {
 
-    public StringSchema() {
-        nonRequired = copyValue == null || copyValue.equals("");
-    }
-
-
     public StringSchema required() {
 
         this.required = true;

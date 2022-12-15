@@ -5,11 +5,6 @@ import java.util.function.Predicate;
 
 public final class NumberSchema extends BaseSchema {
 
-    public NumberSchema() {
-        nonRequired = copyValue == null;
-    }
-
-
     public NumberSchema required() {
 
         this.required = true;
@@ -20,17 +15,7 @@ public final class NumberSchema extends BaseSchema {
     }
     public NumberSchema positive() {
 
-        this.required = true;
-        this.predicateRequired = x -> Objects.equals(x, null) || x instanceof Integer;
-        this.predicates.add(predicateRequired);
-
-        Predicate<Object> predicatePositive = x -> {
-            if (Objects.equals(x, null)) {
-                return true;
-            } else {
-                return  (int) x > 0;
-            }
-        };
+        Predicate<Object> predicatePositive = x -> x instanceof Integer && (int) x > 0;
         this.predicates.add(predicatePositive);
 
         return this;

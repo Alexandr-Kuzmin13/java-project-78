@@ -60,6 +60,7 @@ public class ValidatorTest {
         assertThat(schema.isValid(null)).isTrue();
         assertThat(schema.isValid(CHECKS_NUMBER_10)).isTrue();
         assertThat(schema.positive().isValid(null)).isTrue();
+        assertThat(schema.isValid(CHECKS_NUMBER_10)).isTrue();
         assertThat(schema.isValid(CHECKS_NUMBER_MINUS_10)).isFalse();
 
         schema.required();
