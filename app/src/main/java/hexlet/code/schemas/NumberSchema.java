@@ -26,4 +26,10 @@ public final class NumberSchema extends BaseSchema {
 
         return this;
     }
+
+    @Override
+    public boolean isInvalidData(Object value) {
+
+        return !(value instanceof Integer);
+    }
 }

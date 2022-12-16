@@ -1,17 +1,17 @@
 package hexlet.code.schemas;
 
 import java.util.Map;
-import java.util.Objects;
 import java.util.function.Predicate;
 
 public final class MapSchema extends BaseSchema {
 
-    public void required() {
+    public MapSchema required() {
 
         this.required = true;
-        Predicate<Object> predicateRequired = x -> !Objects.equals(x, null);
+        Predicate<Object> predicateRequired = x -> x instanceof Map;
         predicates.add(predicateRequired);
 
+        return this;
     }
     public MapSchema sizeof(int number) {
 
@@ -20,7 +20,7 @@ public final class MapSchema extends BaseSchema {
 
         return this;
     }
-    public void shape(Map<String, BaseSchema> schemasField) {
+    public MapSchema shape(Map<String, BaseSchema> schemasField) {
 
         required();
 
@@ -29,6 +29,13 @@ public final class MapSchema extends BaseSchema {
                         .isValid(((Map.Entry) y).getValue()));
 
         predicates.add(predicateShape);
+
+        return this;
     }
 
+    @Override
+    public boolean isInvalidData(Object value) {
+
+        return !(value instanceof Map) || ((Map) value).isEmpty();
+    }
 }
