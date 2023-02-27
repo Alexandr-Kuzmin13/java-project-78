@@ -9,12 +9,6 @@ plugins {
 group 'hexlet.code'
 version '1.0-SNAPSHOT'
 
-application {
-
-    mainClass = 'hexlet.code.App'
-
-}
-
 repositories {
     mavenCentral()
 }
@@ -46,16 +40,5 @@ jacoco {
 jacocoTestReport {
     reports {
         xml.required = true
-    }
-}
-
-jar {
-
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-    manifest {
-        attributes "Main-Class": "hexlet.code.App"
-    }
-    from {
-        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
     }
 }
